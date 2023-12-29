@@ -1,5 +1,7 @@
 mod rubiks_cube;
 
+use bevy::prelude::*;
+
 fn main() {
-    todo!();
+    App::new().add_plugins(DefaultPlugins).run();
 }
