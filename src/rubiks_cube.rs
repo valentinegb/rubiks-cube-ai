@@ -120,7 +120,32 @@ impl RubiksCube {
     }
 
     fn rotate_up(&mut self, counterclockwise: bool) {
-        todo!();
+        let switching_start = if counterclockwise { END } else { START };
+        let switching_end = if counterclockwise { START } else { END };
+
+        self.0[START][END][START].y = self.0[switching_end][END][switching_start].z;
+        self.0[START][END][START].z = self.0[switching_end][END][switching_start].y;
+
+        self.0[START][END][MIDDLE].y = self.0[MIDDLE][END][switching_start].z;
+
+        self.0[START][END][END].y = self.0[switching_start][END][switching_start].z;
+        self.0[START][END][END].z = self.0[switching_start][END][switching_start].y;
+
+        // ---
+
+        self.0[MIDDLE][END][START].z = self.0[switching_end][END][MIDDLE].y;
+
+        self.0[MIDDLE][END][END].z = self.0[switching_start][END][MIDDLE].y;
+
+        // ---
+
+        self.0[END][END][START].y = self.0[switching_end][END][switching_end].z;
+        self.0[END][END][START].z = self.0[switching_end][END][switching_end].y;
+
+        self.0[END][END][MIDDLE].y = self.0[MIDDLE][END][switching_end].z;
+
+        self.0[END][END][END].y = self.0[switching_start][END][switching_end].z;
+        self.0[END][END][END].z = self.0[switching_start][END][switching_end].y;
     }
 
     fn rotate_left(&mut self, counterclockwise: bool) {
