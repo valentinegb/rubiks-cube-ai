@@ -61,98 +61,77 @@ impl RubiksCube {
         ])
     }
 
-    fn rotate_front_clockwise(&mut self) {
-        self.0[START][START][END].x = self.0[END][START][END].y;
-        self.0[START][START][END].y = self.0[END][START][END].x;
+    fn rotate_front(&mut self, counterclockwise: bool) {
+        let switching_start = if counterclockwise { END } else { START };
+        let switching_end = if counterclockwise { START } else { END };
 
-        self.0[START][MIDDLE][END].x = self.0[MIDDLE][START][END].y;
+        self.0[START][START][END].x = self.0[switching_end][switching_start][END].y;
+        self.0[START][START][END].y = self.0[switching_end][switching_start][END].x;
 
-        self.0[START][END][END].x = self.0[START][START][END].y;
-        self.0[START][END][END].y = self.0[START][START][END].x;
+        self.0[START][MIDDLE][END].x = self.0[MIDDLE][switching_start][END].y;
 
-        // ---
-
-        self.0[MIDDLE][START][END].y = self.0[END][MIDDLE][END].x;
-
-        self.0[MIDDLE][END][END].y = self.0[START][MIDDLE][END].x;
+        self.0[START][END][END].x = self.0[switching_start][switching_start][END].y;
+        self.0[START][END][END].y = self.0[switching_start][switching_start][END].x;
 
         // ---
 
-        self.0[END][START][END].x = self.0[END][END][END].y;
-        self.0[END][START][END].y = self.0[END][END][END].x;
+        self.0[MIDDLE][START][END].y = self.0[switching_end][MIDDLE][END].x;
 
-        self.0[END][MIDDLE][END].x = self.0[MIDDLE][END][END].y;
-
-        self.0[END][END][END].x = self.0[START][END][END].y;
-        self.0[END][END][END].y = self.0[START][END][END].x;
-    }
-
-    fn rotate_front_counterclockwise(&mut self) {
-        self.0[START][START][END].x = self.0[START][END][END].y;
-        self.0[START][START][END].y = self.0[START][END][END].x;
-
-        self.0[START][MIDDLE][END].x = self.0[MIDDLE][END][END].y;
-
-        self.0[START][END][END].x = self.0[END][END][END].y;
-        self.0[START][END][END].y = self.0[END][END][END].x;
+        self.0[MIDDLE][END][END].y = self.0[switching_start][MIDDLE][END].x;
 
         // ---
 
-        self.0[MIDDLE][START][END].y = self.0[START][MIDDLE][END].x;
+        self.0[END][START][END].x = self.0[switching_end][switching_end][END].y;
+        self.0[END][START][END].y = self.0[switching_end][switching_end][END].x;
 
-        self.0[MIDDLE][END][END].y = self.0[END][MIDDLE][END].x;
+        self.0[END][MIDDLE][END].x = self.0[MIDDLE][switching_end][END].y;
+
+        self.0[END][END][END].x = self.0[switching_start][switching_end][END].y;
+        self.0[END][END][END].y = self.0[switching_start][switching_end][END].x;
+    }
+
+    fn rotate_right(&mut self, counterclockwise: bool) {
+        let switching_start = if counterclockwise { END } else { START };
+        let switching_end = if counterclockwise { START } else { END };
+
+        self.0[END][START][START].y = self.0[END][switching_end][switching_start].z;
+        self.0[END][START][START].z = self.0[END][switching_end][switching_start].y;
+
+        self.0[END][START][MIDDLE].y = self.0[END][MIDDLE][switching_start].z;
+
+        self.0[END][START][END].y = self.0[END][switching_start][switching_start].z;
+        self.0[END][START][END].z = self.0[END][switching_start][switching_start].y;
 
         // ---
 
-        self.0[END][START][END].x = self.0[START][START][END].y;
-        self.0[END][START][END].y = self.0[START][START][END].x;
+        self.0[END][MIDDLE][START].z = self.0[END][switching_end][MIDDLE].y;
 
-        self.0[END][MIDDLE][END].x = self.0[MIDDLE][START][END].y;
+        self.0[END][MIDDLE][END].z = self.0[END][switching_start][MIDDLE].y;
 
-        self.0[END][END][END].x = self.0[END][START][END].y;
-        self.0[END][END][END].y = self.0[END][START][END].x;
+        // ---
+
+        self.0[END][END][START].y = self.0[END][switching_end][switching_end].z;
+        self.0[END][END][START].z = self.0[END][switching_end][switching_end].y;
+
+        self.0[END][END][MIDDLE].y = self.0[END][MIDDLE][switching_end].z;
+
+        self.0[END][END][END].y = self.0[END][switching_start][switching_end].z;
+        self.0[END][END][END].z = self.0[END][switching_start][switching_end].y;
     }
 
-    fn rotate_right_clockwise(&mut self) {
-        self.0[END][START][START].y = self.0[END][END][START].z;
-        self.0[END][START][START].z = self.0[END][END][START].y;
-
+    fn rotate_up(&mut self, counterclockwise: bool) {
         todo!();
     }
 
-    fn rotate_right_counterclockwise(&mut self) {
+    fn rotate_left(&mut self, counterclockwise: bool) {
         todo!();
     }
 
-    fn rotate_up_clockwise(&mut self) {
+    fn rotate_back(&mut self, counterclockwise: bool) {
         todo!();
     }
 
-    fn rotate_up_counterclockwise(&mut self) {
-        todo!();
-    }
-
-    fn rotate_left_clockwise(&mut self) {
-        todo!();
-    }
-
-    fn rotate_left_counterclockwise(&mut self) {
-        todo!();
-    }
-
-    fn rotate_back_clockwise(&mut self) {
-        todo!();
-    }
-
-    fn rotate_back_counterclockwise(&mut self) {
-        todo!();
-    }
-
-    fn rotate_down_clockwise(&mut self) {
-        todo!();
-    }
-
-    fn rotate_down_counterclockwise(&mut self) {
+    fn rotate_down(&mut self, counterclockwise: bool) {
         todo!();
     }
 }
