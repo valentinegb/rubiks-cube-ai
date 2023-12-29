@@ -2,6 +2,7 @@ const START: usize = 0;
 const MIDDLE: usize = 1;
 const END: usize = 2;
 
+#[derive(Debug, PartialEq, Eq)]
 struct RubiksCube(Vec<Vec<Vec<Cube>>>);
 
 impl RubiksCube {
@@ -123,29 +124,29 @@ impl RubiksCube {
         let switching_start = if counterclockwise { END } else { START };
         let switching_end = if counterclockwise { START } else { END };
 
-        self.0[START][END][START].y = self.0[switching_end][END][switching_start].z;
-        self.0[START][END][START].z = self.0[switching_end][END][switching_start].y;
+        self.0[START][END][START].x = self.0[switching_start][END][switching_end].z;
+        self.0[START][END][START].z = self.0[switching_start][END][switching_end].x;
 
-        self.0[START][END][MIDDLE].y = self.0[MIDDLE][END][switching_start].z;
+        self.0[START][END][MIDDLE].x = self.0[MIDDLE][END][switching_end].z;
 
-        self.0[START][END][END].y = self.0[switching_start][END][switching_start].z;
-        self.0[START][END][END].z = self.0[switching_start][END][switching_start].y;
-
-        // ---
-
-        self.0[MIDDLE][END][START].z = self.0[switching_end][END][MIDDLE].y;
-
-        self.0[MIDDLE][END][END].z = self.0[switching_start][END][MIDDLE].y;
+        self.0[START][END][END].x = self.0[switching_end][END][switching_end].z;
+        self.0[START][END][END].z = self.0[switching_end][END][switching_end].x;
 
         // ---
 
-        self.0[END][END][START].y = self.0[switching_end][END][switching_end].z;
-        self.0[END][END][START].z = self.0[switching_end][END][switching_end].y;
+        self.0[MIDDLE][END][START].z = self.0[switching_start][END][MIDDLE].x;
 
-        self.0[END][END][MIDDLE].y = self.0[MIDDLE][END][switching_end].z;
+        self.0[MIDDLE][END][END].z = self.0[switching_end][END][MIDDLE].x;
 
-        self.0[END][END][END].y = self.0[switching_start][END][switching_end].z;
-        self.0[END][END][END].z = self.0[switching_start][END][switching_end].y;
+        // ---
+
+        self.0[END][END][START].x = self.0[switching_start][END][switching_start].z;
+        self.0[END][END][START].z = self.0[switching_start][END][switching_start].x;
+
+        self.0[END][END][MIDDLE].x = self.0[MIDDLE][END][switching_start].z;
+
+        self.0[END][END][END].x = self.0[switching_end][END][switching_start].z;
+        self.0[END][END][END].z = self.0[switching_end][END][switching_start].x;
     }
 
     fn rotate_left(&mut self, counterclockwise: bool) {
@@ -161,6 +162,7 @@ impl RubiksCube {
     }
 }
 
+#[derive(Debug, PartialEq, Eq)]
 struct Cube {
     x: Color,
     y: Color,
@@ -173,7 +175,7 @@ impl Cube {
     }
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Color {
     Green,
     Red,
@@ -182,4 +184,133 @@ enum Color {
     Blue,
     Yellow,
     None,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn rotate_up() {
+        let mut rubiks_cube = RubiksCube::new();
+
+        rubiks_cube.rotate_up(false);
+
+        assert_eq!(
+            rubiks_cube,
+            RubiksCube(vec![
+                vec![
+                    vec![
+                        Cube::new(Color::Orange, Color::Yellow, Color::Blue),
+                        Cube::new(Color::Orange, Color::Yellow, Color::None),
+                        Cube::new(Color::Orange, Color::Yellow, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::Orange, Color::None, Color::Blue),
+                        Cube::new(Color::Orange, Color::None, Color::None),
+                        Cube::new(Color::Orange, Color::None, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::Green, Color::White, Color::Orange),
+                        Cube::new(Color::Green, Color::White, Color::None),
+                        Cube::new(Color::Green, Color::White, Color::Red),
+                    ],
+                ],
+                vec![
+                    vec![
+                        Cube::new(Color::None, Color::Yellow, Color::Blue),
+                        Cube::new(Color::None, Color::Yellow, Color::None),
+                        Cube::new(Color::None, Color::Yellow, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::None, Color::None, Color::Blue),
+                        Cube::new(Color::None, Color::None, Color::None),
+                        Cube::new(Color::None, Color::None, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::None, Color::White, Color::Orange),
+                        Cube::new(Color::None, Color::White, Color::None),
+                        Cube::new(Color::None, Color::White, Color::Red),
+                    ],
+                ],
+                vec![
+                    vec![
+                        Cube::new(Color::Red, Color::Yellow, Color::Blue),
+                        Cube::new(Color::Red, Color::Yellow, Color::None),
+                        Cube::new(Color::Red, Color::Yellow, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::Red, Color::None, Color::Blue),
+                        Cube::new(Color::Red, Color::None, Color::None),
+                        Cube::new(Color::Red, Color::None, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::Blue, Color::White, Color::Orange),
+                        Cube::new(Color::Blue, Color::White, Color::None),
+                        Cube::new(Color::Blue, Color::White, Color::Red),
+                    ],
+                ],
+            ]),
+        );
+
+        rubiks_cube.rotate_up(true);
+        rubiks_cube.rotate_up(true);
+
+        assert_eq!(
+            rubiks_cube,
+            RubiksCube(vec![
+                vec![
+                    vec![
+                        Cube::new(Color::Orange, Color::Yellow, Color::Blue),
+                        Cube::new(Color::Orange, Color::Yellow, Color::None),
+                        Cube::new(Color::Orange, Color::Yellow, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::Orange, Color::None, Color::Blue),
+                        Cube::new(Color::Orange, Color::None, Color::None),
+                        Cube::new(Color::Orange, Color::None, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::Blue, Color::White, Color::Red),
+                        Cube::new(Color::Blue, Color::White, Color::None),
+                        Cube::new(Color::Blue, Color::White, Color::Orange),
+                    ],
+                ],
+                vec![
+                    vec![
+                        Cube::new(Color::None, Color::Yellow, Color::Blue),
+                        Cube::new(Color::None, Color::Yellow, Color::None),
+                        Cube::new(Color::None, Color::Yellow, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::None, Color::None, Color::Blue),
+                        Cube::new(Color::None, Color::None, Color::None),
+                        Cube::new(Color::None, Color::None, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::None, Color::White, Color::Red),
+                        Cube::new(Color::None, Color::White, Color::None),
+                        Cube::new(Color::None, Color::White, Color::Orange),
+                    ],
+                ],
+                vec![
+                    vec![
+                        Cube::new(Color::Red, Color::Yellow, Color::Blue),
+                        Cube::new(Color::Red, Color::Yellow, Color::None),
+                        Cube::new(Color::Red, Color::Yellow, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::Red, Color::None, Color::Blue),
+                        Cube::new(Color::Red, Color::None, Color::None),
+                        Cube::new(Color::Red, Color::None, Color::Green),
+                    ],
+                    vec![
+                        Cube::new(Color::Green, Color::White, Color::Red),
+                        Cube::new(Color::Green, Color::White, Color::None),
+                        Cube::new(Color::Green, Color::White, Color::Orange),
+                    ],
+                ],
+            ]),
+        );
+    }
 }
