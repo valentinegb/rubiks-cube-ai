@@ -3,60 +3,60 @@ const MIDDLE: usize = 1;
 const END: usize = 2;
 
 #[derive(Debug, PartialEq, Eq)]
-struct RubiksCube(Vec<Vec<Vec<Cube>>>);
+struct RubiksCube(Vec<Vec<Vec<Cubelet>>>);
 
 impl RubiksCube {
     fn new() -> Self {
         RubiksCube(vec![
             vec![
                 vec![
-                    Cube::new(Color::Orange, Color::Yellow, Color::Blue),
-                    Cube::new(Color::Orange, Color::Yellow, Color::None),
-                    Cube::new(Color::Orange, Color::Yellow, Color::Green),
+                    Cubelet::new(Color::Orange, Color::Yellow, Color::Blue),
+                    Cubelet::new(Color::Orange, Color::Yellow, Color::None),
+                    Cubelet::new(Color::Orange, Color::Yellow, Color::Green),
                 ],
                 vec![
-                    Cube::new(Color::Orange, Color::None, Color::Blue),
-                    Cube::new(Color::Orange, Color::None, Color::None),
-                    Cube::new(Color::Orange, Color::None, Color::Green),
+                    Cubelet::new(Color::Orange, Color::None, Color::Blue),
+                    Cubelet::new(Color::Orange, Color::None, Color::None),
+                    Cubelet::new(Color::Orange, Color::None, Color::Green),
                 ],
                 vec![
-                    Cube::new(Color::Orange, Color::White, Color::Blue),
-                    Cube::new(Color::Orange, Color::White, Color::None),
-                    Cube::new(Color::Orange, Color::White, Color::Green),
-                ],
-            ],
-            vec![
-                vec![
-                    Cube::new(Color::None, Color::Yellow, Color::Blue),
-                    Cube::new(Color::None, Color::Yellow, Color::None),
-                    Cube::new(Color::None, Color::Yellow, Color::Green),
-                ],
-                vec![
-                    Cube::new(Color::None, Color::None, Color::Blue),
-                    Cube::new(Color::None, Color::None, Color::None),
-                    Cube::new(Color::None, Color::None, Color::Green),
-                ],
-                vec![
-                    Cube::new(Color::None, Color::White, Color::Blue),
-                    Cube::new(Color::None, Color::White, Color::None),
-                    Cube::new(Color::None, Color::White, Color::Green),
+                    Cubelet::new(Color::Orange, Color::White, Color::Blue),
+                    Cubelet::new(Color::Orange, Color::White, Color::None),
+                    Cubelet::new(Color::Orange, Color::White, Color::Green),
                 ],
             ],
             vec![
                 vec![
-                    Cube::new(Color::Red, Color::Yellow, Color::Blue),
-                    Cube::new(Color::Red, Color::Yellow, Color::None),
-                    Cube::new(Color::Red, Color::Yellow, Color::Green),
+                    Cubelet::new(Color::None, Color::Yellow, Color::Blue),
+                    Cubelet::new(Color::None, Color::Yellow, Color::None),
+                    Cubelet::new(Color::None, Color::Yellow, Color::Green),
                 ],
                 vec![
-                    Cube::new(Color::Red, Color::None, Color::Blue),
-                    Cube::new(Color::Red, Color::None, Color::None),
-                    Cube::new(Color::Red, Color::None, Color::Green),
+                    Cubelet::new(Color::None, Color::None, Color::Blue),
+                    Cubelet::new(Color::None, Color::None, Color::None),
+                    Cubelet::new(Color::None, Color::None, Color::Green),
                 ],
                 vec![
-                    Cube::new(Color::Red, Color::White, Color::Blue),
-                    Cube::new(Color::Red, Color::White, Color::None),
-                    Cube::new(Color::Red, Color::White, Color::Green),
+                    Cubelet::new(Color::None, Color::White, Color::Blue),
+                    Cubelet::new(Color::None, Color::White, Color::None),
+                    Cubelet::new(Color::None, Color::White, Color::Green),
+                ],
+            ],
+            vec![
+                vec![
+                    Cubelet::new(Color::Red, Color::Yellow, Color::Blue),
+                    Cubelet::new(Color::Red, Color::Yellow, Color::None),
+                    Cubelet::new(Color::Red, Color::Yellow, Color::Green),
+                ],
+                vec![
+                    Cubelet::new(Color::Red, Color::None, Color::Blue),
+                    Cubelet::new(Color::Red, Color::None, Color::None),
+                    Cubelet::new(Color::Red, Color::None, Color::Green),
+                ],
+                vec![
+                    Cubelet::new(Color::Red, Color::White, Color::Blue),
+                    Cubelet::new(Color::Red, Color::White, Color::None),
+                    Cubelet::new(Color::Red, Color::White, Color::Green),
                 ],
             ],
         ])
@@ -163,15 +163,15 @@ impl RubiksCube {
 }
 
 #[derive(Debug, PartialEq, Eq)]
-struct Cube {
+struct Cubelet {
     x: Color,
     y: Color,
     z: Color,
 }
 
-impl Cube {
+impl Cubelet {
     fn new(x: Color, y: Color, z: Color) -> Self {
-        Cube { x, y, z }
+        Cubelet { x, y, z }
     }
 }
 
@@ -201,53 +201,53 @@ mod tests {
             RubiksCube(vec![
                 vec![
                     vec![
-                        Cube::new(Color::Orange, Color::Yellow, Color::Blue),
-                        Cube::new(Color::Orange, Color::Yellow, Color::None),
-                        Cube::new(Color::Orange, Color::Yellow, Color::Green),
+                        Cubelet::new(Color::Orange, Color::Yellow, Color::Blue),
+                        Cubelet::new(Color::Orange, Color::Yellow, Color::None),
+                        Cubelet::new(Color::Orange, Color::Yellow, Color::Green),
                     ],
                     vec![
-                        Cube::new(Color::Orange, Color::None, Color::Blue),
-                        Cube::new(Color::Orange, Color::None, Color::None),
-                        Cube::new(Color::Orange, Color::None, Color::Green),
+                        Cubelet::new(Color::Orange, Color::None, Color::Blue),
+                        Cubelet::new(Color::Orange, Color::None, Color::None),
+                        Cubelet::new(Color::Orange, Color::None, Color::Green),
                     ],
                     vec![
-                        Cube::new(Color::Green, Color::White, Color::Orange),
-                        Cube::new(Color::Green, Color::White, Color::None),
-                        Cube::new(Color::Green, Color::White, Color::Red),
-                    ],
-                ],
-                vec![
-                    vec![
-                        Cube::new(Color::None, Color::Yellow, Color::Blue),
-                        Cube::new(Color::None, Color::Yellow, Color::None),
-                        Cube::new(Color::None, Color::Yellow, Color::Green),
-                    ],
-                    vec![
-                        Cube::new(Color::None, Color::None, Color::Blue),
-                        Cube::new(Color::None, Color::None, Color::None),
-                        Cube::new(Color::None, Color::None, Color::Green),
-                    ],
-                    vec![
-                        Cube::new(Color::None, Color::White, Color::Orange),
-                        Cube::new(Color::None, Color::White, Color::None),
-                        Cube::new(Color::None, Color::White, Color::Red),
+                        Cubelet::new(Color::Green, Color::White, Color::Orange),
+                        Cubelet::new(Color::Green, Color::White, Color::None),
+                        Cubelet::new(Color::Green, Color::White, Color::Red),
                     ],
                 ],
                 vec![
                     vec![
-                        Cube::new(Color::Red, Color::Yellow, Color::Blue),
-                        Cube::new(Color::Red, Color::Yellow, Color::None),
-                        Cube::new(Color::Red, Color::Yellow, Color::Green),
+                        Cubelet::new(Color::None, Color::Yellow, Color::Blue),
+                        Cubelet::new(Color::None, Color::Yellow, Color::None),
+                        Cubelet::new(Color::None, Color::Yellow, Color::Green),
                     ],
                     vec![
-                        Cube::new(Color::Red, Color::None, Color::Blue),
-                        Cube::new(Color::Red, Color::None, Color::None),
-                        Cube::new(Color::Red, Color::None, Color::Green),
+                        Cubelet::new(Color::None, Color::None, Color::Blue),
+                        Cubelet::new(Color::None, Color::None, Color::None),
+                        Cubelet::new(Color::None, Color::None, Color::Green),
                     ],
                     vec![
-                        Cube::new(Color::Blue, Color::White, Color::Orange),
-                        Cube::new(Color::Blue, Color::White, Color::None),
-                        Cube::new(Color::Blue, Color::White, Color::Red),
+                        Cubelet::new(Color::None, Color::White, Color::Orange),
+                        Cubelet::new(Color::None, Color::White, Color::None),
+                        Cubelet::new(Color::None, Color::White, Color::Red),
+                    ],
+                ],
+                vec![
+                    vec![
+                        Cubelet::new(Color::Red, Color::Yellow, Color::Blue),
+                        Cubelet::new(Color::Red, Color::Yellow, Color::None),
+                        Cubelet::new(Color::Red, Color::Yellow, Color::Green),
+                    ],
+                    vec![
+                        Cubelet::new(Color::Red, Color::None, Color::Blue),
+                        Cubelet::new(Color::Red, Color::None, Color::None),
+                        Cubelet::new(Color::Red, Color::None, Color::Green),
+                    ],
+                    vec![
+                        Cubelet::new(Color::Blue, Color::White, Color::Orange),
+                        Cubelet::new(Color::Blue, Color::White, Color::None),
+                        Cubelet::new(Color::Blue, Color::White, Color::Red),
                     ],
                 ],
             ]),
@@ -261,53 +261,53 @@ mod tests {
             RubiksCube(vec![
                 vec![
                     vec![
-                        Cube::new(Color::Orange, Color::Yellow, Color::Blue),
-                        Cube::new(Color::Orange, Color::Yellow, Color::None),
-                        Cube::new(Color::Orange, Color::Yellow, Color::Green),
+                        Cubelet::new(Color::Orange, Color::Yellow, Color::Blue),
+                        Cubelet::new(Color::Orange, Color::Yellow, Color::None),
+                        Cubelet::new(Color::Orange, Color::Yellow, Color::Green),
                     ],
                     vec![
-                        Cube::new(Color::Orange, Color::None, Color::Blue),
-                        Cube::new(Color::Orange, Color::None, Color::None),
-                        Cube::new(Color::Orange, Color::None, Color::Green),
+                        Cubelet::new(Color::Orange, Color::None, Color::Blue),
+                        Cubelet::new(Color::Orange, Color::None, Color::None),
+                        Cubelet::new(Color::Orange, Color::None, Color::Green),
                     ],
                     vec![
-                        Cube::new(Color::Blue, Color::White, Color::Red),
-                        Cube::new(Color::Blue, Color::White, Color::None),
-                        Cube::new(Color::Blue, Color::White, Color::Orange),
-                    ],
-                ],
-                vec![
-                    vec![
-                        Cube::new(Color::None, Color::Yellow, Color::Blue),
-                        Cube::new(Color::None, Color::Yellow, Color::None),
-                        Cube::new(Color::None, Color::Yellow, Color::Green),
-                    ],
-                    vec![
-                        Cube::new(Color::None, Color::None, Color::Blue),
-                        Cube::new(Color::None, Color::None, Color::None),
-                        Cube::new(Color::None, Color::None, Color::Green),
-                    ],
-                    vec![
-                        Cube::new(Color::None, Color::White, Color::Red),
-                        Cube::new(Color::None, Color::White, Color::None),
-                        Cube::new(Color::None, Color::White, Color::Orange),
+                        Cubelet::new(Color::Blue, Color::White, Color::Red),
+                        Cubelet::new(Color::Blue, Color::White, Color::None),
+                        Cubelet::new(Color::Blue, Color::White, Color::Orange),
                     ],
                 ],
                 vec![
                     vec![
-                        Cube::new(Color::Red, Color::Yellow, Color::Blue),
-                        Cube::new(Color::Red, Color::Yellow, Color::None),
-                        Cube::new(Color::Red, Color::Yellow, Color::Green),
+                        Cubelet::new(Color::None, Color::Yellow, Color::Blue),
+                        Cubelet::new(Color::None, Color::Yellow, Color::None),
+                        Cubelet::new(Color::None, Color::Yellow, Color::Green),
                     ],
                     vec![
-                        Cube::new(Color::Red, Color::None, Color::Blue),
-                        Cube::new(Color::Red, Color::None, Color::None),
-                        Cube::new(Color::Red, Color::None, Color::Green),
+                        Cubelet::new(Color::None, Color::None, Color::Blue),
+                        Cubelet::new(Color::None, Color::None, Color::None),
+                        Cubelet::new(Color::None, Color::None, Color::Green),
                     ],
                     vec![
-                        Cube::new(Color::Green, Color::White, Color::Red),
-                        Cube::new(Color::Green, Color::White, Color::None),
-                        Cube::new(Color::Green, Color::White, Color::Orange),
+                        Cubelet::new(Color::None, Color::White, Color::Red),
+                        Cubelet::new(Color::None, Color::White, Color::None),
+                        Cubelet::new(Color::None, Color::White, Color::Orange),
+                    ],
+                ],
+                vec![
+                    vec![
+                        Cubelet::new(Color::Red, Color::Yellow, Color::Blue),
+                        Cubelet::new(Color::Red, Color::Yellow, Color::None),
+                        Cubelet::new(Color::Red, Color::Yellow, Color::Green),
+                    ],
+                    vec![
+                        Cubelet::new(Color::Red, Color::None, Color::Blue),
+                        Cubelet::new(Color::Red, Color::None, Color::None),
+                        Cubelet::new(Color::Red, Color::None, Color::Green),
+                    ],
+                    vec![
+                        Cubelet::new(Color::Green, Color::White, Color::Red),
+                        Cubelet::new(Color::Green, Color::White, Color::None),
+                        Cubelet::new(Color::Green, Color::White, Color::Orange),
                     ],
                 ],
             ]),
