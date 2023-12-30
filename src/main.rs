@@ -1,5 +1,7 @@
 mod rubiks_cube;
 
+use std::f32::consts::PI;
+
 use bevy::{
     input::mouse::MouseMotion,
     log::{self, LogPlugin},
@@ -28,17 +30,52 @@ fn setup(
     mut rubiks_cube_resource: ResMut<RubiksCubeResource>,
 ) {
     let rubiks_cube = assets.load("rubiks_cube.glb#Scene0");
+    let mut rubiks_cube_transform = Transform::from_xyz(0., 0., -0.2);
+
+    rubiks_cube_transform.rotate_y(PI - 0.5);
+    rubiks_cube_transform.rotate_x(0.5);
 
     rubiks_cube_resource.0 = Some(
         commands
             .spawn(SceneBundle {
                 scene: rubiks_cube,
-                transform: Transform::from_xyz(0., 0., -0.2),
+                transform: rubiks_cube_transform,
                 ..default()
             })
             .id(),
     );
 
+    let point_light = PointLight {
+        radius: 0.2,
+        shadows_enabled: true,
+        ..default()
+    };
+
+    commands.spawn(PointLightBundle {
+        point_light,
+        transform: Transform::from_xyz(0., 4., 0.),
+        ..default()
+    });
+    commands.spawn(PointLightBundle {
+        point_light,
+        transform: Transform::from_xyz(-4., 4., 0.),
+        ..default()
+    });
+    commands.spawn(PointLightBundle {
+        point_light,
+        transform: Transform::from_xyz(4., 4., 0.),
+        ..default()
+    });
+    commands.spawn(PointLightBundle {
+        point_light,
+        transform: Transform::from_xyz(0., 4., -4.),
+        ..default()
+    });
+    commands.spawn(PointLightBundle {
+        point_light,
+        transform: Transform::from_xyz(0., 4., 4.),
+        ..default()
+    });
     commands.spawn(Camera3dBundle::default());
 }
 
