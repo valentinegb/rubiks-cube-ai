@@ -6,6 +6,7 @@ use bevy::{
     input::mouse::MouseMotion,
     log::{self, LogPlugin},
     prelude::*,
+    window::WindowTheme,
 };
 
 #[derive(Resource, Default)]
@@ -13,11 +14,22 @@ struct RubiksCubeResource(Option<Entity>);
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins.set(LogPlugin {
-            #[cfg(debug_assertions)]
-            level: log::Level::DEBUG,
-            ..default()
-        }))
+        .add_plugins(
+            DefaultPlugins
+                .set(LogPlugin {
+                    #[cfg(debug_assertions)]
+                    level: log::Level::DEBUG,
+                    ..default()
+                })
+                .set(WindowPlugin {
+                    primary_window: Some(Window {
+                        title: "Rubik's Cube AI".into(),
+                        window_theme: Some(WindowTheme::Dark),
+                        ..default()
+                    }),
+                    ..default()
+                }),
+        )
         .insert_resource(ClearColor(Color::hex("1E2227").unwrap()))
         .init_resource::<RubiksCubeResource>()
         .add_systems(Startup, setup)
