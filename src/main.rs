@@ -18,6 +18,7 @@ fn main() {
             level: log::Level::DEBUG,
             ..default()
         }))
+        .insert_resource(ClearColor(Color::hex("1E2227").unwrap()))
         .init_resource::<RubiksCubeResource>()
         .add_systems(Startup, setup)
         .add_systems(Update, rubiks_cube_rotate)
@@ -76,6 +77,31 @@ fn setup(
         transform: Transform::from_xyz(0., 4., 4.),
         ..default()
     });
+    commands
+        .spawn(NodeBundle {
+            style: Style {
+                width: Val::Percent(100.),
+                height: Val::Percent(100.),
+                justify_content: JustifyContent::End,
+                flex_direction: FlexDirection::Row,
+                ..default()
+            },
+            ..default()
+        })
+        .with_children(|parent| {
+            parent.spawn(NodeBundle {
+                style: Style {
+                    width: Val::Px(256.),
+                    margin: UiRect::all(Val::Px(24.)),
+                    padding: UiRect::all(Val::Px(24.)),
+                    border: UiRect::all(Val::Px(6.)),
+                    ..default()
+                },
+                background_color: Color::hex("21252B").unwrap().into(),
+                border_color: Color::hex("282C34").unwrap().into(),
+                ..default()
+            });
+        });
     commands.spawn(Camera3dBundle::default());
 }
 
